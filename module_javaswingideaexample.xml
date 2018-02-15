@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_javaswingideaexample" default="compile.module.javaswingideaexample">
+  <dirname property="module.javaswingideaexample.basedir" file="${ant.file.module_javaswingideaexample}"/>
+  
+  <property name="module.jdk.home.javaswingideaexample" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.javaswingideaexample" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.javaswingideaexample" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.javaswingideaexample" value="-encoding UTF-8 -source 9 -target 9 ${compiler.args}"/>
+  
+  <property name="javaswingideaexample.output.dir" value="${module.javaswingideaexample.basedir}/out/production/JavaSwingIdeaExample"/>
+  <property name="javaswingideaexample.testoutput.dir" value="${module.javaswingideaexample.basedir}/out/test/JavaSwingIdeaExample"/>
+  
+  <path id="javaswingideaexample.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="javaswingideaexample.module.production.classpath">
+    <path refid="${module.jdk.classpath.javaswingideaexample}"/>
+  </path>
+  
+  <path id="javaswingideaexample.runtime.production.module.classpath">
+    <pathelement location="${javaswingideaexample.output.dir}"/>
+  </path>
+  
+  <path id="javaswingideaexample.module.classpath">
+    <path refid="${module.jdk.classpath.javaswingideaexample}"/>
+    <pathelement location="${javaswingideaexample.output.dir}"/>
+  </path>
+  
+  <path id="javaswingideaexample.runtime.module.classpath">
+    <pathelement location="${javaswingideaexample.testoutput.dir}"/>
+    <pathelement location="${javaswingideaexample.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.javaswingideaexample">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.javaswingideaexample">
+    <patternset refid="excluded.from.module.javaswingideaexample"/>
+  </patternset>
+  
+  <path id="javaswingideaexample.module.sourcepath">
+    <dirset dir="${module.javaswingideaexample.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.javaswingideaexample" depends="compile.module.javaswingideaexample.production,compile.module.javaswingideaexample.tests" description="Compile module JavaSwingIdeaExample"/>
+  
+  <target name="compile.module.javaswingideaexample.production" depends="register.custom.compilers" description="Compile module JavaSwingIdeaExample; production classes">
+    <mkdir dir="${javaswingideaexample.output.dir}"/>
+    <javac2 destdir="${javaswingideaexample.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.javaswingideaexample}/javac">
+      <compilerarg line="${compiler.args.javaswingideaexample}"/>
+      <bootclasspath refid="javaswingideaexample.module.bootclasspath"/>
+      <classpath refid="javaswingideaexample.module.production.classpath"/>
+      <src refid="javaswingideaexample.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.javaswingideaexample"/>
+    </javac2>
+    
+    <copy todir="${javaswingideaexample.output.dir}">
+      <fileset dir="${module.javaswingideaexample.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.javaswingideaexample.tests" depends="register.custom.compilers,compile.module.javaswingideaexample.production" description="compile module JavaSwingIdeaExample; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.javaswingideaexample" description="cleanup module">
+    <delete dir="${javaswingideaexample.output.dir}"/>
+    <delete dir="${javaswingideaexample.testoutput.dir}"/>
+  </target>
+</project>
